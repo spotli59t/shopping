@@ -24,10 +24,12 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden}
 #game-app .product{padding:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0;border-radius:12px;box-shadow:0 3px 0 #d8bc8d}
 #game-app .product img{height:0;flex:1;min-height:0;width:100%;object-fit:contain}
 #game-app .price{font-size:15px;padding:3px 12px;margin-top:3px}
-#game-app aside{display:grid;grid-template-rows:220px 278px 1fr;gap:8px;min-height:0}
+#game-app aside{display:grid;grid-template-rows:260px minmax(0,1fr);gap:8px;min-height:0}
+#game-app aside:has(#checkout:not([hidden])){grid-template-rows:220px minmax(0,1fr) 120px}
 #game-app .list-card,#game-app .basket-card,#game-app .checkout{grid-row:auto;padding:12px 15px;border-radius:16px;min-height:0}
 #game-app .list-card h2{font-size:22px;margin:6px 0}
-#game-app .list-card ol{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}
+#game-app .list-card{display:flex;flex-direction:column}
+#game-app .list-card ol{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,minmax(0,1fr));gap:2px 12px;flex:1;min-height:0}
 #game-app .list-card li{font-size:14px;min-height:34px;line-height:1.2;gap:6px}
 #game-app .tick{flex-basis:16px;height:16px}
 #game-app .list-top .eyebrow{font-size:10px}
