@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Little Market • Shopping Game</title><link rel="stylesheet" href="./style.css"><style>
+body.welcome-open{overflow:hidden;height:100vh;height:100dvh}
+.welcome{position:fixed;inset:0;height:100vh;height:100dvh;display:grid;place-items:center;padding:clamp(12px,3vh,32px);background:#f4e9d4 url('./images/shop-background.png') center/cover no-repeat;z-index:2000;overflow:hidden}
+.welcome-panel{width:min(780px,100%);max-height:100%;text-align:center;background:#fffdf5f2;border:1px solid #fff;border-radius:28px;padding:clamp(18px,4vh,42px);box-shadow:0 18px 70px #344a3026;display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.7vh,18px)}
+.welcome h1{font: bold clamp(32px,7vw,65px)/1.05 Georgia,serif;margin:0;color:#293e32}.welcome .welcome-subtitle{margin:0;font-size:clamp(14px,2.3vw,20px);color:#6e796c}.welcome-art{height:clamp(75px,24vh,230px);height:clamp(75px,24dvh,230px);width:min(420px,85%);position:relative;flex-shrink:1;min-height:45px}.welcome-art img{height:100%;width:100%;object-fit:contain}.welcome-steps{display:flex;gap:10px;justify-content:center;width:100%;margin:0;padding:0;list-style:none}.welcome-steps li{flex:1;padding:12px 8px;border-radius:14px;background:#edf2e5;font-size:clamp(12px,1.7vw,15px);line-height:1.4}.welcome-steps b{display:block;font-size:20px;color:#3c6749;margin-bottom:3px}.welcome-start{padding:16px 42px;font-size:19px;border-radius:15px;background:#3c6749;color:white;font-weight:bold;box-shadow:0 4px 0 #294a34}.welcome-start:hover{background:#2c5137}.welcome-note{margin:0;color:#6e796c;font-size:12px}
+@media(max-height:620px){.welcome-panel{gap:8px;padding:16px}.welcome-art{height:15dvh}.welcome h1{font-size:34px}.welcome-steps li{padding:7px}.welcome-steps b{font-size:16px}.welcome-start{padding:12px 32px}.welcome-note{display:none}}
+@media(max-height:420px){.welcome-art{display:none}.welcome-panel{gap:6px}.welcome h1{font-size:28px}.welcome-steps b{display:inline;margin-right:5px}.welcome .eyebrow{display:none}.welcome-steps li{font-size:12px}}
+
+/* Fit the complete game board to the available viewport, without clipping. */
+html,body{width:100%;height:100%;margin:0;overflow:hidden}
+#game-app{position:fixed;left:0;top:0;width:1280px;height:800px;max-width:none;margin:0;padding:14px;transform-origin:top left;display:flex;flex-direction:column;gap:8px}
+#game-app header{height:64px;min-height:64px;padding:10px 20px;border-radius:17px}
+#game-app header .eyebrow,#game-app h1 span{display:none}
+#game-app h1{font-size:30px;margin:0}
+#game-app .new-list{padding:10px 18px;font-size:14px}
+#game-app .instructions{margin:0;padding:7px 14px;font-size:13px;height:30px;min-height:30px}
+#game-app main{display:grid;grid-template-columns:790px 450px;gap:12px;flex:1;min-height:0;align-items:stretch}
+#game-app .shop{grid-row:auto;padding:15px;display:flex;flex-direction:column;min-height:0;border-radius:19px}
+#game-app .section-heading{flex-wrap:nowrap;margin-bottom:8px;min-height:24px}
+#game-app .section-heading h2{font-size:20px}
+#game-app .shelves{flex:1;min-height:0;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr));gap:10px}
+#game-app .product{padding:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0;border-radius:12px;box-shadow:0 3px 0 #d8bc8d}
+#game-app .product img{height:0;flex:1;min-height:0;width:100%;object-fit:contain}
+#game-app .price{font-size:15px;padding:3px 12px;margin-top:3px}
+#game-app aside{display:grid;grid-template-rows:220px 278px 1fr;gap:8px;min-height:0}
+#game-app .list-card,#game-app .basket-card,#game-app .checkout{grid-row:auto;padding:12px 15px;border-radius:16px;min-height:0}
+#game-app .list-card h2{font-size:22px;margin:6px 0}
+#game-app .list-card ol{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}
+#game-app .list-card li{font-size:14px;min-height:34px;line-height:1.2;gap:6px}
+#game-app .tick{flex-basis:16px;height:16px}
+#game-app .list-top .eyebrow{font-size:10px}
+#game-app .basket-card{display:flex;flex-direction:column;position:relative}
+#game-app .basket-picture{position:absolute;top:3px;right:105px;width:70px;height:44px;margin:0;pointer-events:none}
+#game-app #drop-label{display:none}
+#game-app .basket-items{grid-template-columns:repeat(7,minmax(0,1fr));grid-template-rows:repeat(3,48px);gap:4px;margin:2px 0 7px;flex:1;min-height:0}
+#game-app .basket-item{padding:1px;border-radius:7px}
+#game-app .basket-item img{height:27px}
+#game-app .quantity{gap:3px;font-size:11px;height:19px}
+#game-app .quantity button{width:20px;height:19px;font-size:14px;padding:0}
+#game-app #check-basket{padding:8px;font-size:13px}
+#game-app .feedback{font-size:12px;line-height:1.2;margin:5px 0 0}
+#game-app .checkout{border-width:1px}
+#game-app .checkout>.eyebrow,#game-app .checkout>p:not(.feedback),#game-app #total-form>label,#game-app #total-hint{display:none}
+#game-app .checkout h2{font-size:19px;margin:0 0 7px}
+#game-app .total-row input{padding:7px 10px;font-size:18px}
+#game-app .total-row .primary{padding:9px 18px}
+#game-app footer{margin:0;padding:4px;font-size:11px;height:21px;min-height:21px}
+
+</style></head>
+<body class="welcome-open">
+<section id="welcome" class="welcome" aria-labelledby="welcome-title">
+<div class="welcome-panel">
+<span class="eyebrow">READ · SHOP · COUNT</span>
+<h1 id="welcome-title">Little Market</h1>
+<p class="welcome-subtitle">Let’s go shopping!</p>
+<div class="welcome-art"><img src="./images/basket.png" alt="Shopping basket"></div>
+<ol class="welcome-steps"><li><b>1</b>Read your list</li><li><b>2</b>Fill your basket</li><li><b>3</b>Count the total</li></ol>
+<button id="start-game" class="welcome-start" type="button">Start shopping →</button>
+<p class="welcome-note">8 items on your list · A new list every round</p>
+</div></section>
+<div class="app" id="game-app" hidden>
+<header><div><span class="eyebrow">READ · SHOP · COUNT</span><h1>Little Market<span>Shopping adventure</span></h1></div><button class="new-list" id="new-list">New shopping list <span aria-hidden="true">↻</span></button></header>
+<p class="instructions">Read your list. Drag the food into your basket, or tap a picture to add it.</p>
+<main>
+<section class="shop" aria-label="Shop shelves"><div class="section-heading"><h2>Choose your shopping</h2><span>Price per item or pack</span></div><div id="shelves" class="shelves"></div></section>
+<aside>
+<section class="list-card"><div class="list-top"><span class="eyebrow">TODAY’S MISSION</span><span class="list-count">8 items</span></div><h2>My shopping list</h2><ol id="shopping-list"></ol></section>
+<section class="basket-card" id="basket-zone" aria-label="Shopping basket drop area"><div class="section-heading"><h2>My basket</h2><span id="basket-count">0 items</span></div><div class="basket-picture"><img src="./images/basket.png" alt="Empty shopping basket"><span id="drop-label">Drop your shopping here</span></div><div id="basket-items" class="basket-items"></div><button id="check-basket" class="primary">Check my basket</button><p id="basket-feedback" class="feedback" role="status" aria-live="polite"></p></section>
+<section id="checkout" class="checkout" hidden><span class="eyebrow">TIME TO COUNT</span><h2>How much is your shopping?</h2><p>Use the prices on the shelves. Remember the quantities!</p><form id="total-form"><label for="total">Total cost</label><div class="total-row"><span>£</span><input id="total" inputmode="decimal" autocomplete="off" placeholder="0.00" aria-describedby="total-hint" required><button class="primary" type="submit">Check</button></div><small id="total-hint">Write pounds and pence, e.g. 12.50</small></form><p id="total-feedback" class="feedback" role="status" aria-live="polite"></p></section>
+</aside>
+</main><footer>One picture = one item or one pack. Tap − to take something out of your basket.</footer>
+</div><script src="./script.js"></script>
+<script>
+function fitGameBoard(){
+ const board=document.getElementById('game-app');
+ const viewport=window.visualViewport;
+ const w=viewport?viewport.width:window.innerWidth;
+ const h=viewport?viewport.height:window.innerHeight;
+ const scale=Math.min(w/1280,h/800);
+ board.style.transform='scale('+scale+')';
+ board.style.left=((w-1280*scale)/2)+'px';
+ board.style.top=((h-800*scale)/2)+'px';
+}
+window.addEventListener('resize',fitGameBoard);
+if(window.visualViewport)window.visualViewport.addEventListener('resize',fitGameBoard);
+fitGameBoard();
+document.getElementById('start-game').addEventListener('click',function(){
+ document.getElementById('welcome').hidden=true;
+ document.getElementById('game-app').hidden=false;
+ document.body.classList.remove('welcome-open');
+ fitGameBoard();
+ window.scrollTo(0,0);
+ const title=document.querySelector('#game-app h1');
+ title.setAttribute('tabindex','-1');title.focus({preventScroll:true});
+});
+</script>
+</body></html>
